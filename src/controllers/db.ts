@@ -1,9 +1,11 @@
-import { connect, connection, Connection, Types } from 'mongoose';
+import { connect, connection, Connection } from 'mongoose';
 import { IOrderModel, Order } from '../models/order';
 import { MongoMemoryServer } from 'mongodb-memory-server';
+import { ITradeModel, Trade } from '../models/trade';
 
 declare interface IModels {
   Order: IOrderModel;
+  Trade: ITradeModel;
 }
 
 export default class DB {
@@ -32,8 +34,8 @@ export default class DB {
     );
     this._db = connection;
     this._models = {
-      //@ts-ignore
       Order: new Order().model,
+      Trade: new Trade().model
     };
   }
 

@@ -6,6 +6,7 @@ export declare interface IOrder extends Document {
   stock: string;
   type: Type;
   price: number;
+  matched: boolean;
 }
 
 export enum Type {
@@ -13,11 +14,9 @@ export enum Type {
   SELL = 'SELL'
 }
 
-export declare interface IOrderModel extends Model<IOrder>{
-}
+export type IOrderModel = Model<IOrder>
 
 export class Order {
-  // tslint:disable-next-line: variable-name
   private _model: Model<IOrder>;
 
   constructor() {
@@ -25,7 +24,8 @@ export class Order {
       party: { type: String, required: true },
       stock: { type: String, required: true },
       type: { type: String, required: true },
-      price: { type: Number, required: true }
+      price: { type: Number, required: true },
+      matched: { type: Boolean, default: false }
     });
 
     this._model = model<IOrder>('Order', orderSchema);
