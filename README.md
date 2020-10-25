@@ -92,3 +92,9 @@ Since the API is expected to have high throughput, I thought of having a Queuein
 
 ## Environments
 Different environments can be configured such as development, production and testing using the `NODE_ENV`. We can switch the DB or do other operations based on the environments. But for now I'm using in-memory db and hence there is not much need.
+
+## Trade by same party
+I'm not sure if there is a possibility that the same party could raise both BUY and SELL request with same price and stock. Logically, the party may cancel the previous order. But currently, this scenario would create a trade in the system regardless of the party names.
+
+## Trade with price 0
+Although logically trade with price 0 is incorrect, I've not handled/rejected such trades.
