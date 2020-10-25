@@ -18,6 +18,6 @@ export class Routes {
       .route('/order')
       .get(this.orderController.GetAll)
       .post(this.orderController.Add);
-    app.route('/trades').get(this.tradeController.GetAll);
+    app.route('/trade').get(this.tradeController.GetAll);
   }
 }

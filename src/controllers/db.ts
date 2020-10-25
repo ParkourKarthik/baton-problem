@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { connect, connection, Connection } from 'mongoose';
 import { IOrderModel, Order } from '../models/order';
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -47,10 +48,12 @@ export default class DB {
   }
 
   private connected() {
-    console.log('Mongoose has connected');
+    if(process.env.NODE_ENV != 'test')
+      console.log('Mongoose has connected');
   }
 
   private error(error) {
-    console.log('Mongoose has error', error);
+    if(process.env.NODE_ENV != 'test')
+      console.log('Mongoose has error', error);
   }
 }

@@ -5,13 +5,15 @@ export class TradeController {
   public GetAll(req: Request, res: Response) {
     const query = req.query;
     const match = {};
-    console.log('query', query);
     for (const key in query) {
-      if (key) {
+      if (key != 'date') {
         match['buyOrder.' + key] = query[key];
         match['sellOrder.' + key] = query[key];
+      } else {
+        match[key] = new Date(query[key] as string);
       }
     }
+    console.log(match);
     DB.Models.Trade.aggregate(
       [
         {
@@ -49,7 +51,7 @@ export class TradeController {
             seller: "$sellOrder.party",
             stock: "$buyOrder.stock",
             price: "$buyOrder.price",
-            tradeDate: "$date"
+            date: "$date"
           }
         }
       ],

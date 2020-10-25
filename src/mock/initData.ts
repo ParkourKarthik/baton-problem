@@ -3,7 +3,7 @@ import { Type } from "../models/order";
 import { Types } from 'mongoose';
 
 /**
- * Default data inserted into employee table to show some data
+ * Default data inserted into table to show some data
  */
 export const initData = () => {
   const p1 = DB.Models.Order.create<any>({
