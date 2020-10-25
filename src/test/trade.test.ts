@@ -54,7 +54,7 @@ describe('Trades', () => {
     const filterFields = {
       stock: { query: 'IBM', count: 1 },
       party: { query: 'Party+C', count: 1 },
-      date: { query: new Date().toLocaleDateString(), count: 1 }
+      date: { query: '2020-10-25', count: 2 }
     };
     for (const key in filterFields) {
       it(`it should GET filter based on ${key}`, done => {
@@ -63,7 +63,6 @@ describe('Trades', () => {
           .get(`${endpoint}?${key}=${filterFields[key].query}`)
           .end((err, res) => {
             res.should.have.status(200);
-            console.log('res.body', res.body);
             res.body.should.be.a('array');
             res.body.length.should.be.eql(filterFields[key].count);
             done();

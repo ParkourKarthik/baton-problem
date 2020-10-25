@@ -13,7 +13,6 @@ export class TradeController {
         match[key] = new Date(query[key] as string);
       }
     }
-    console.log(match);
     DB.Models.Trade.aggregate(
       [
         {
