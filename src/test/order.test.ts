@@ -73,8 +73,14 @@ describe('Orders', () => {
         { party: 'Party A', type: Type.SELL, stock: 'GOOG', price: '500' },
         { party: 'Party B', type: Type.BUY, stock: 'IBM', price: '110' }
       ];
-      DB.Models.Order.insertMany(orders);
-      done();
+      const resolveSequential = async orders => {
+        for (const order of orders) {
+          await DB.Models.Order.create<any>(order);
+        }
+      };
+      resolveSequential(orders).then(() => {
+        done();
+      });
     });
     it('it should GET all the orders', done => {
       chai
@@ -89,7 +95,8 @@ describe('Orders', () => {
     });
     const filterFields = {
       stock: { query: 'IBM', count: 2 },
-      price: { query: 600, count: 1 }
+      price: { query: 600, count: 1 },
+      matched: { query: false, count: 2 }
     };
     for (const key in filterFields) {
       it(`it should GET filter based on ${key}`, done => {

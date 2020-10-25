@@ -37,24 +37,28 @@ export class Order {
         stock,
         matched: false
       }))(this);
-      DB.Models.Order.findOne(orderQuery, {}, (err: any, ord: any) => {
+      DB.Models.Order.findOne(orderQuery, {}, (_err: any, ord: any) => {
         if (ord) {
-          this.matched = true;
           const query = (({ type, price, stock }) => ({ type, price, stock }))(
             ord
           );
-          DB.Models.Order.updateOne(query, { $set: { matched: true } });
-        }
-        if (this && this.matched) {
-          const newTrade: ITrade = new DB.Models.Trade({
-            sell_id: ord.type == 'SELL' ? ord._id : this._id,
-            buy_id: ord.type == 'BUY' ? ord._id : this._id,
-            date: new Date().toLocaleDateString()
+          DB.Models.Order.updateOne(query, {
+            $set: { matched: true }
+          }).then(_res => {
+            const newTrade: ITrade = new DB.Models.Trade({
+              sell_id: ord.type == 'SELL' ? ord._id : this._id,
+              buy_id: ord.type == 'BUY' ? ord._id : this._id,
+              date: new Date().toLocaleDateString()
+            });
+            newTrade.save().then(_sv => {
+              this.matched = true;
+              return next();
+            });
           });
-          newTrade.save();
+        } else {
+          next();
         }
       });
-      next();
     });
 
     this._model = model<IOrder>('Order', orderSchema);
