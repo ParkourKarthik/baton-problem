@@ -78,7 +78,7 @@ curl http://localhost:8080/trade?date=2020-10-25
 # Thoughts and decisions
 
 ## Technical stack & libraries
-The technical stack includes Nodejs, Typescript, Mongodb, Mongoose, Mocha, Chai, loadtest.
+The technical stack includes Nodejs, expressjs, Typescript, Mongodb, Mongoose, Mocha, Chai, loadtest. The API uses in-memory database so the data won't persist after stopping the server from running.
 
 ## Schema & Model
 I had used normalization between order and trade collections. The trade collection has only reference ids of the buyer and seller order. Also each order has an additional property of `matched` to make sure that the order is already not matched and to query orders that are unmatched.
@@ -90,3 +90,5 @@ The choice is completely based on popularity which inturn is based on performanc
 ## Queueing Mechanism
 Since the API is expected to have high throughput, I thought of having a Queueing mechanism before hitting the DB. I looked for an in-memory queueing library. But after a brief research, it is suggested that nodejs and Mongodb provides better throughput. There were also many hesitations such as "what if the db fails while using the queueing mechanism", so I dropped spending much time on it. I just added a performance test to verify the throughput.
 
+## Environments
+Different environments can be configured such as development, production and testing using the `NODE_ENV`. We can switch the DB or do other operations based on the environments. But for now I'm using in-memory db and hence there is not much need.
